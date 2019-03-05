@@ -36,6 +36,10 @@ Route::get('/test', 'PagesController@test');
 Route::get('/', 'PagesController@index');
 Route::get('/about', 'PagesController@about');
 Route::get('/services', 'PagesController@services');
+//post it becomes plural by default
+Route::resource('posts', 'PostsController');
 
 
+Auth::routes();
 
+Route::get('/dashboard', 'DashboardController@index');
