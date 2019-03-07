@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 class PagesController extends Controller
 {
     public function index(){
-        $title = 'Welcome to Larave from Controller!';
+        $title = 'Welcome to Larave Web App!';
         //return view('pages.index',compact('title'));//way 1 
         return view('pages.index')->with('title',$title);//way 2
     }

@@ -8,6 +8,23 @@ use DB;
 class PostsController extends Controller
 {
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+       /**
+     * If we use the following method, it will prevent all guests to see all posts pages..
+     * $this->middleware('auth');
+     */
+
+        // There is authentication, but with an exception for the pages(index and show) to let the guest users see them
+       
+        $this->middleware('auth', ['except' => ['index', 'show']]);
+    }
+    
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -78,6 +95,9 @@ class PostsController extends Controller
     public function edit($id)
     {
         $post = Post::find($id);  // way 2 
+        if(auth()->user()->id != $post->user_id){
+            return redirect('/posts')->with('error','Unauthorized Page!!!');
+        }
         return view('posts.edit')->with('post',$post);
     }
 
@@ -111,6 +131,9 @@ class PostsController extends Controller
     public function destroy($id)
     {
         $post = Post::find($id);
+        if(auth()->user()->id != $post->user_id){
+            return redirect('/posts')->with('error','Unauthorized Page!!!');
+        }
         $post->delete();
         return redirect('/posts')->with('error','Post with the id: (('.$id.')), has been deleted!');
  
